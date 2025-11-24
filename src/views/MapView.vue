@@ -124,7 +124,7 @@ const createUserMarker = (lat: number, lng: number) => {
 const addNearbyMarkers = () => {
   nearbyMarkers.clearLayers();
 
-  items.value.forEach((item, i) => {
+  items.value.forEach((item) => {
     // 隨機散佈在土城區（API 沒給經緯度）
     const lat = 24.95 + Math.random() * 0.04;
     const lng = 121.42 + Math.random() * 0.04;
