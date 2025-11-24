@@ -10,7 +10,6 @@ export function useAuth() {
   // Google JWT 解析（超穩）
   const parseJwt = (token: string): any => {
     try {
-      // 移除 Google 故意加的 ]}' 防 XSS
       const base64Url = token.split(".")[1];
       if (!base64Url) return null;
 
@@ -103,7 +102,7 @@ export function useAuth() {
         },
       });
 
-      // 如果已經有 localStorage 資料，直接顯示（自動登入！）
+      // 如果已經有 localStorage 資料，自動登入
       if (store.googleUser && store.fbUser) {
         console.log("檢測到 localStorage 登入狀態，自動登入完成");
       }
@@ -121,7 +120,7 @@ export function useAuth() {
     googleIdApi.prompt();
   };
 
-  // Facebook 登入（完美兼容新舊 picture 格式）
+  // Facebook 登入
   const facebookLogin = () => {
     if (!window.FB) {
       alert("Facebook 登入尚未準備好，請稍候...");

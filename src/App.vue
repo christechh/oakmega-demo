@@ -16,9 +16,9 @@ import MapView from "@/views/MapView.vue";
 import { useAuthStore } from "@/stores/auth";
 import { storeToRefs } from "pinia";
 
-// 從 Pinia 拿全域登入狀態（這才是正確的！）
+// 從 Pinia 拿全域登入狀態
 const store = useAuthStore();
-const { isLoggedIn } = storeToRefs(store); // 一定要用 storeToRefs 才會響應式！
+const { isLoggedIn } = storeToRefs(store);
 </script>
 
 <style scoped>

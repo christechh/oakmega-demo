@@ -3,6 +3,7 @@
     <p>地圖載入中...</p>
   </div>
 
+
   <div v-else class="map-wrapper">
     <div ref="mapEl" class="map-container" />
 
@@ -38,7 +39,7 @@ let nearbyMarkers: L.LayerGroup = L.layerGroup(); // 用 LayerGroup 管理，超
 
 const isLoading = ref(true);
 
-// ───── 修復 Leaflet 圖示（最穩寫法）────
+// ───── 修復 Leaflet image────
 const fixLeafletIcons = () => {
   delete (L.Icon.Default.prototype as any)._getIconUrl;
   L.Icon.Default.mergeOptions({
@@ -86,7 +87,7 @@ const initMap = async () => {
   nearbyMarkers.addTo(map);
 };
 
-// ───── 雙大頭貼 Marker（超帥！）────
+// ───── 雙大頭貼 Marker ────
 const createUserMarker = (lat: number, lng: number) => {
   const gPic =
     googleUser.value?.picture ||
@@ -120,12 +121,12 @@ const createUserMarker = (lat: number, lng: number) => {
     .openTooltip();
 };
 
-// ───── 附近都更點 Marker（用 CircleMarker 沒警告！）────
+// ───── 附近都更點 Marker ────
 const addNearbyMarkers = () => {
   nearbyMarkers.clearLayers();
 
   items.value.forEach((item) => {
-    // 隨機散佈在土城區（API 沒給經緯度）
+    // 隨機散佈在土城區
     const lat = 24.95 + Math.random() * 0.04;
     const lng = 121.42 + Math.random() * 0.04;
 

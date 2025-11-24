@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-import LoginView from "@/views/LoginView.vue"; // 你的登入頁
-import MapView from "@/views/MapView.vue"; // 你的地圖頁
+import LoginView from "@/views/LoginView.vue";
+import MapView from "@/views/MapView.vue";
 
 const router = createRouter({
   history: createWebHistory(),

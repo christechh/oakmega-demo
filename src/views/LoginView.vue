@@ -13,10 +13,9 @@
           cursor: pointer;
         "
       >
-        開發者一鍵登入（跳過 Google + Facebook）
+        demo測試一鍵登入（跳過 Google + Facebook）
       </button>
     </div>
-
     <!-- 載入中 -->
     <div v-if="isLoading" class="loading">
       <p>載入登入功能中...</p>
@@ -67,12 +66,8 @@
 import { useAuthStore } from "@/stores/auth";
 import { useAuth } from "@/composables/useAuth";
 import { storeToRefs } from "pinia";
-import { useRouter } from "vue-router";
-import { watch } from "vue";
 
-const router = useRouter();
-
-// 開發者專用：一鍵登入（直接塞假資料）
+// demo專用：一鍵登入（直接塞假資料）
 const devLogin = () => {
   store.setGoogleUser({
     id: "google-123",
@@ -87,24 +82,12 @@ const devLogin = () => {
     email: "you@facebook.com",
     picture: "https://picsum.photos/200?random=2",
   });
-
-  alert("開發者一鍵登入成功！現在可以直接用全部功能");
 };
 
 const store = useAuthStore();
 const { googleUser, fbUser, isLoading } = storeToRefs(store);
 const { googleLogin, facebookLogin } = useAuth();
 
-// 雙重登入完成 → 自動跳轉到地圖
-watch(
-  () => googleUser.value && fbUser.value,
-  (loggedIn) => {
-    if (loggedIn) {
-      router.push("/map");
-    }
-  },
-  { immediate: true }
-);
 </script>
 
 <style scoped>

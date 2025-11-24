@@ -42,7 +42,7 @@ const props = defineProps<{
 }>();
 
 const sortedItems = computed(() => {
-  return [...props.items].sort((a, b) => a.distance - b.distance).slice(0, 10); // 只顯示前 10 名（更專業）
+  return [...props.items].sort((a, b) => a.distance - b.distance).slice(0, 10); // 只顯示前 10 名
 });
 
 const formatDistance = (meters: number): string => {
