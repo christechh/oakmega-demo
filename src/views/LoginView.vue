@@ -45,7 +45,7 @@
         </div>
 
         <div v-else-if="!googleUser && !fbUser" class="login">
-          <button @click="googleLogin" class="btn google">Google 登入</button>
+          <div id="google-login-button"></div>
           <button @click="facebookLogin" class="btn fb">Facebook 登入</button>
           <p class="hint">請完成雙重驗證以使用完整功能</p>
         </div>
@@ -61,9 +61,7 @@
           <div v-if="fbUser && !googleUser" class="status">
             <img :src="fbUser.picture" class="avatar fb" />
             <p>已登入 Facebook</p>
-            <button @click="googleLogin" class="btn google">
-              登入 Google 完成驗證
-            </button>
+            <div id="google-login-button"></div>
           </div>
         </div>
       </div>
@@ -75,7 +73,7 @@
     <!-- 未登入：顯示登入按鈕 -->
     <div v-if="!googleUser && !fbUser" class="mobile-login">
       <button @click="devLogin" class="btn danger">一鍵登入（最高權限）</button>
-      <button @click="googleLogin" class="btn google small">G</button>
+      <div id="google-login-button"></div>
       <button @click="facebookLogin" class="btn fb small">f</button>
     </div>
 
@@ -124,7 +122,7 @@ const devLogin = () => {
 
 const store = useAuthStore();
 const { googleUser, fbUser, isLoading } = storeToRefs(store);
-const { googleLogin, facebookLogin } = useAuth();
+const { facebookLogin } = useAuth();
 </script>
 
 <style lang="scss" scoped>
