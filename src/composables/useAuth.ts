@@ -68,6 +68,20 @@ export function useAuth() {
     return new Promise((resolve, reject) => {
       if (window.FB) return resolve();
 
+      let retryCount = 0;
+      const maxRetries = 5;
+
+      const checkFB = () => {
+        if (window.FB) {
+          resolve();
+        } else if (retryCount < maxRetries) {
+          retryCount++;
+          setTimeout(checkFB, 500 * retryCount); // 漸進式重試
+        } else {
+          reject(new Error("Facebook SDK 載入逾時"));
+        }
+      };
+
       window.fbAsyncInit = () => {
         window.FB!.init({
           appId: import.meta.env.VITE_FB_APP_ID,
@@ -75,7 +89,7 @@ export function useAuth() {
           xfbml: true,
           version: "v20.0",
         });
-        resolve();
+        checkFB(); // 立即檢查
       };
 
       const script = document.createElement("script");
@@ -83,28 +97,49 @@ export function useAuth() {
       script.async = true;
       script.defer = true;
       script.crossOrigin = "anonymous";
-      script.onerror = reject;
+      script.onerror = () => reject(new Error("Facebook SDK 載入失敗"));
       document.body.appendChild(script);
     });
   };
 
   watch(
-  () => store.googleUser,
-  () => {
-    nextTick(() => {
-      const el = document.getElementById("google-login-button");
-      if (el && googleIdApi && !store.googleUser) {
-        el.innerHTML = "";
-        googleIdApi!.renderButton(el, {
-          theme: "outline",
-          size: "large",
-          text: "signin_with",
+    () => store.fbUser,
+    () => {
+      // 當 Facebook 登入完成，但 Google 還沒登入時 → 強制重新渲染 Google 按鈕
+      if (store.fbUser && !store.googleUser && googleIdApi) {
+        nextTick(() => {
+          const el = document.getElementById("google-login-button");
+          if (el) {
+            el.innerHTML = ""; // 清空舊的
+            googleIdApi!.renderButton(el, {
+              theme: "outline",
+              size: "large",
+              text: "signin_with",
+            });
+          }
         });
       }
-    });
-  },
-  { immediate: true }
-);
+    },
+    { immediate: true }
+  );
+
+  watch(
+    () => store.googleUser,
+    () => {
+      nextTick(() => {
+        const el = document.getElementById("google-login-button");
+        if (el && googleIdApi && !store.googleUser) {
+          el.innerHTML = "";
+          googleIdApi!.renderButton(el, {
+            theme: "outline",
+            size: "large",
+            text: "signin_with",
+          });
+        }
+      });
+    },
+    { immediate: true }
+  );
 
   onMounted(async () => {
     try {
@@ -137,7 +172,10 @@ export function useAuth() {
 
   const facebookLogin = () => {
     if (!window.FB) {
-      alert("Facebook 登入尚未準備好，請稍候...");
+      console.warn("FB SDK 未準備好，重試中...");
+      loadFacebookSDK()
+        .then(() => facebookLogin())
+        .catch(() => alert("FB SDK 載入失敗，請重新整理"));
       return;
     }
 
