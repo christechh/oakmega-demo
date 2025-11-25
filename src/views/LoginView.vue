@@ -73,8 +73,8 @@
     <!-- 未登入：顯示登入按鈕 -->
     <div v-if="!googleUser && !fbUser" class="mobile-login">
       <button @click="devLogin" class="btn danger">一鍵登入（最高權限）</button>
-      <div id="google-login-button"></div>
       <button @click="facebookLogin" class="btn fb small">f</button>
+      <div id="google-login-button"></div>
     </div>
 
     <!-- 已登入：顯示頭貼 + 名字 + 最高權限 -->
@@ -192,7 +192,7 @@ const { facebookLogin } = useAuth();
   border: 5px solid white;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   &.google {
-    border-color: #4285f4;
+    border-color: #d32f2f;
   }
   &.fb {
     border-color: #1877f2;
@@ -214,7 +214,7 @@ const { facebookLogin } = useAuth();
   border: 4px solid white;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   &.google {
-    background: #4285f4;
+    background: #d32f2f;
   }
   &.fb {
     background: #1877f2;
@@ -267,7 +267,7 @@ const { facebookLogin } = useAuth();
   bottom: 0;
   left: 0;
   right: 0;
-  height: 64px;
+  // height: 64px;
   background: rgba(0, 0, 0, 0.88);
   backdrop-filter: blur(20px);
   display: flex;
@@ -283,16 +283,14 @@ const { facebookLogin } = useAuth();
 }
 
 .mobile-login {
-  display: flex;
-  gap: 16px;
   width: 100%;
-  justify-content: center;
   .btn.small {
     width: 48px;
     height: 48px;
     border-radius: 50%;
     padding: 0;
     font-size: 20px;
+    margin: 10px;
   }
 }
 
