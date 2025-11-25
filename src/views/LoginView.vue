@@ -369,4 +369,8 @@ const { facebookLogin } = useAuth();
     opacity: 1;
   }
 }
+
+iframe {
+  text-align: center !important;
+}
 </style>
