@@ -104,7 +104,7 @@ export function useAuth() {
 
       // 如果已經有 localStorage 資料，自動登入
       if (store.googleUser && store.fbUser) {
-        console.log("檢測到 localStorage 登入狀態，自動登入完成");
+        console.log("自動登入完成");
       }
     } catch (err) {
       console.error("登入 SDK 載入失敗", err);

@@ -1,0 +1,31 @@
+@mixin card-base {
+  background: #fff;
+  border-radius: $radius-md;
+  box-shadow: $shadow-lg;
+}
+
+@mixin btn-base {
+  padding: 14px 32px;
+  border: none;
+  border-radius: $radius-pill;
+  color: white;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: bold;
+  transition: all 0.3s;
+  box-shadow: $shadow-sm;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  }
+}
+
+@mixin hover-slide {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  &:hover {
+    background: linear-gradient(90deg, #f0f8ff, #f8fdff);
+    transform: translateX(8px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  }
+}
